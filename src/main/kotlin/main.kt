@@ -1,4 +1,5 @@
 import java.io.File
+import kotlin.system.exitProcess
 
 const val BOUND_TO_REBUILD = 1e5
 
@@ -18,7 +19,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
         }
     }
 
-    fun removeDataBase() {
+    fun cleanDataBase() {
         assert(File(PATH_TO_DB).exists()) {
             "removeDataBase used when there is no database"
         }
@@ -46,6 +47,14 @@ data class DataBaseClass(val PATH_TO_DB : String) {
         }
     }
 
+    fun find(key : String) {
+        if (db.containsKey(key)) {
+            println(db[key])
+        } else {
+            println("There is no such key")
+        }
+    }
+
     private fun loadDataBase(): DataBase {
         initDataBase()
         val lines = File(PATH_TO_DB).readLines()
@@ -69,7 +78,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
         return db
     }
 
-    private fun rebuildDataBase() {
+    fun rebuildDataBase() {
         // TODO
     }
 }
@@ -83,17 +92,43 @@ fun main(args: Array<String>) {
         when (str[0]) {
             "add" -> {
                 if (str.size != 3) {
-                    println("Please, enter input format in this format: \"add key value\".\nNotice that key and value cannot have a whitespace")
+                    println("Please, enter input format in this format: \"add key value\".\nNotice that key and value cannot have whitespaces")
                     continue
                 }
                 db.add(str[1], str[2])
             }
             "remove" -> {
                 if (str.size != 2) {
-                    println("Please, enter input format in this format: \"remove key\".\nNotice that key cannot have a whitespace")
+                    println("Please, enter input format in this format: \"remove key\".\nNotice that key cannot have whitespaces")
                     continue
                 }
                 db.remove(str[1])
+            }
+            "find" -> {
+                if (str.size != 2) {
+                    println("Please, enter input format in this format: \"find key\".\nNotice that key cannot have whitespaces")
+                    continue
+                }
+                db.find(str[1])
+            }
+            "exit" -> {
+                println("Please, wait. Database is rebuilding now. It might take some time")
+                db.rebuildDataBase()
+                exitProcess(0)
+            }
+            "clean!!" -> {
+                db.cleanDataBase()
+            }
+            "help" -> {
+                println("Hello! It's a key-value database. Command you can use:")
+                println("add key value - adds an element to the database, if it already exists, replaces it with a new value")
+                println("find key - find an element by key")
+                println("remove key - remove an element by key, if there is no such element nothing will happen")
+                println("clean!! - clean the database")
+                println("Notice that _key_ and _value_ are strings without whitespaces")
+            }
+            else -> {
+                println("Wrong command. Use \"help\" to see available commands")
             }
         }
     }
