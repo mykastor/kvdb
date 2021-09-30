@@ -2,7 +2,7 @@ import java.io.File
 import kotlin.random.Random
 import kotlin.test.*
 
-internal class Test1 {
+internal class TestValidity {
 
     var db = DataBaseClass("database/testdb.txt")
 
@@ -64,21 +64,4 @@ internal class Test1 {
 
     }
 
-    @Test
-    fun testPerformance() {
-        val slowDB = mutableMapOf<String, String>()
-        repeat(100000) {
-            val key = generateRandomString()
-            val value = generateRandomString()
-            slowDB[key] = value
-            db.add(key, value)
-        }
-
-       slowDB.forEach {
-           assert(db.find(it.key) == it.value)
-       }
-
-        assertNull( db.find("asjdlfajsdnflajsdnfkjandfkljandjfnasd"))
-
-    }
 }

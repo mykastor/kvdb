@@ -2,13 +2,15 @@ import java.io.File
 
 const val PATH_TO_DATABASE = "database/db.txt"
 
-const val BOUND_TO_REBUILD = 1e5
-
 typealias DataBase = MutableMap<String, String>
 
 data class DataBaseClass(val PATH_TO_DB : String) {
 
     private val db = loadDataBase()
+
+    init {
+        rebuildDataBase()
+    }
 
     private fun addToFile(str: String) {
         File(PATH_TO_DB).appendText(str)
@@ -25,15 +27,6 @@ data class DataBaseClass(val PATH_TO_DB : String) {
             "removeDataBase used when there is no database"
         }
         File(PATH_TO_DB).writeText("init database\n")
-    }
-
-    private fun askToRebuild() {
-        println("do you want to rebuild database? (it might take some time) [y; n]")
-        println("it happened because the program did not close with the \"exit\" command")
-        val str = readLine() ?: return
-        if (str.first().lowercase() == "y") {
-            rebuildDataBase()
-        }
     }
 
     fun add(key : String, value : String) {
@@ -72,9 +65,6 @@ data class DataBaseClass(val PATH_TO_DB : String) {
                     db.remove(str[1])
                 }
             }
-        }
-        if (deleteCount >= BOUND_TO_REBUILD) {
-            askToRebuild()
         }
         return db
     }

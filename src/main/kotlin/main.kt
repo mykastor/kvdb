@@ -32,8 +32,6 @@ fun main(args: Array<String>) {
                 else println(res)
             }
             "exit" -> {
-                println("Please, wait. Database is rebuilding now. It might take some time")
-                db.rebuildDataBase()
                 exitProcess(0)
             }
             "clean!!" -> {
