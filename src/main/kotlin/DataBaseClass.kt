@@ -1,11 +1,9 @@
 import java.io.File
 import kotlin.jvm.internal.Intrinsics
 
-const val PATH_TO_DATABASE = "database/db.txt"
-
 typealias DataBase = MutableMap<String, String>
 
-data class DataBaseClass(val PATH_TO_DB : String) {
+data class DataBaseClass(var pathToDatabase : String) {
 
     private val db = loadDataBase()
 
@@ -14,25 +12,40 @@ data class DataBaseClass(val PATH_TO_DB : String) {
     }
 
     private fun addToFile(str: String) {
-        File(PATH_TO_DB).appendText(str)
+        File(pathToDatabase).appendText(str)
     }
 
     private fun initDataBase() {
-        if (!File(PATH_TO_DB).exists()) {
-            File(PATH_TO_DB).appendText("init\n")
+        if (!File(pathToDatabase).exists()) {
+            File(pathToDatabase).appendText("init\n")
         }
     }
 
-    fun cleanDataBase() {
-        assert(File(PATH_TO_DB).exists()) {
+    fun cleanDataBaseFile() {
+        assert(File(pathToDatabase).exists()) {
             "removeDataBase used when there is no database"
         }
-        File(PATH_TO_DB).writeText("init\n")
+        File(pathToDatabase).writeText("init\n")
+    }
+
+    fun cleanDataBase() {
+        cleanDataBaseFile()
+        db.clear()
     }
 
     fun add(key : String, value : String) {
         db[key] = value
         addToFile("a $key $value\n")
+    }
+    
+    fun changePath(newPathToDatabase : String) {
+        if (newPathToDatabase == pathToDatabase) {
+            return
+        }
+        val oldPath = pathToDatabase
+        pathToDatabase = newPathToDatabase
+        rebuildDataBase()
+        File(oldPath).delete()
     }
 
     fun remove(key : String) {
@@ -52,7 +65,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
 
     private fun loadDataBase(): DataBase {
         initDataBase()
-        val lines = File(PATH_TO_DB).readLines()
+        val lines = File(pathToDatabase).readLines()
         val db = mutableMapOf<String, String>()
         lines.forEach {
             val str = it.split(' ')
@@ -81,7 +94,8 @@ data class DataBaseClass(val PATH_TO_DB : String) {
     }
 
     fun rebuildDataBase() {
-        cleanDataBase()
+        initDataBase()
+        cleanDataBaseFile()
         db.forEach {
             addToFile("a ${it.key} ${it.value}\n")
         }
