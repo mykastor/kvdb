@@ -31,21 +31,26 @@ internal class TestValidity {
             keys.add(key)
             db.add(key, value)
         }
+        db.add("1", "1")
+        db.add("aZ#1%23", "zSAJd13812#%")
     }
 
     @Test
     fun testFind() {
-        val slowDB = mutableListOf<Pair<String, String>>()
+        val slowDB = mutableMapOf<String, String>()
         repeat(100) {
             val key = generateRandomString()
             val value = generateRandomString()
-            slowDB.add(Pair(key, value))
+            slowDB[key] = value
             db.add(key, value)
         }
 
-        repeat(100) {
-            val id = Random.nextInt(0, slowDB.size - 1)
-            assertEquals(db.find(slowDB[id].first), slowDB[id].second)
+        slowDB.forEach {
+            if (Random.nextInt(0, 5) == 0) {
+                db.remove(it.key)
+            } else {
+                assert(db.find(it.key) == it.value)
+            }
         }
 
         assertEquals(null, db.find("asjdlfajsdnflajsdnfkjandfkljandjfnasd"))

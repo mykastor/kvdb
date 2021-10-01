@@ -1,4 +1,5 @@
 import java.io.File
+import kotlin.jvm.internal.Intrinsics
 
 const val PATH_TO_DATABASE = "database/db.txt"
 
@@ -18,7 +19,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
 
     private fun initDataBase() {
         if (!File(PATH_TO_DB).exists()) {
-            File(PATH_TO_DB).appendText("init database\n")
+            File(PATH_TO_DB).appendText("init\n")
         }
     }
 
@@ -26,7 +27,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
         assert(File(PATH_TO_DB).exists()) {
             "removeDataBase used when there is no database"
         }
-        File(PATH_TO_DB).writeText("init database\n")
+        File(PATH_TO_DB).writeText("init\n")
     }
 
     fun add(key : String, value : String) {
@@ -57,19 +58,22 @@ data class DataBaseClass(val PATH_TO_DB : String) {
             val str = it.split(' ')
             when (str[0]) {
                 "a" -> {
-                    assert(str.size == 3) {
-                        "Database is damaged"
+                    if (str.size != 3) {
+                        logger.error { "Database is damaged. $str" }
                     }
                     db[str[1]] = str[2]
                 }
                 "d" -> {
-                    assert(str.size == 2) {
-                        "Database is damaged"
+                    if (str.size != 2) {
+                        logger.error { "Database is damaged. $str" }
                     }
                     db.remove(str[1])
                 }
-                else -> assert(false) {
-                    "Database is damaged"
+                "init" -> {
+
+                }
+                else -> {
+                    logger.error { "Database is damaged. $str" }
                 }
             }
         }
