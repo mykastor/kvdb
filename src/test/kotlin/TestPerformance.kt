@@ -13,7 +13,7 @@ internal class TestPerformance {
 
     private fun generateRandomString() : String {
         var str = ""
-        repeat (Random.nextInt(1, 100)) {
+        repeat (Random.nextInt(1, 10)) {
             str += if (Random.nextBoolean())
                 Random.nextInt('a'.code, 'z'.code).toChar()
             else
@@ -25,7 +25,7 @@ internal class TestPerformance {
     @Test
     fun testPerformance() {
         val slowDB = mutableMapOf<String, String>()
-        repeat(100000) {
+        repeat(10000) {
             val key = generateRandomString()
             val value = generateRandomString()
             slowDB[key] = value
@@ -39,6 +39,7 @@ internal class TestPerformance {
                 assert(db.find(it.key) == it.value)
             }
         }
+
 
         assertNull( db.find("asjdlfajsdnflajsdnfkjandfkljandjfnasd"))
 
