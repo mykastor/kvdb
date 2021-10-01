@@ -21,7 +21,7 @@ data class DataBaseClass(var pathToDatabase : String) {
         }
     }
 
-    fun cleanDataBaseFile() {
+    private fun cleanDataBaseFile() {
         assert(File(pathToDatabase).exists()) {
             "removeDataBase used when there is no database"
         }
