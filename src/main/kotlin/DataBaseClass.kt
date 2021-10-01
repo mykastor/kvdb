@@ -79,7 +79,7 @@ data class DataBaseClass(val PATH_TO_DB : String) {
     fun rebuildDataBase() {
         cleanDataBase()
         db.forEach {
-            addToFile("add ${it.key} ${it.value}\n")
+            addToFile("a ${it.key} ${it.value}\n")
         }
     }
 }
