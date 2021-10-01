@@ -53,16 +53,23 @@ data class DataBaseClass(val PATH_TO_DB : String) {
         initDataBase()
         val lines = File(PATH_TO_DB).readLines()
         val db = mutableMapOf<String, String>()
-        var deleteCount = 0
         lines.forEach {
             val str = it.split(' ')
             when (str[0]) {
                 "a" -> {
+                    assert(str.size == 3) {
+                        "Database is damaged"
+                    }
                     db[str[1]] = str[2]
                 }
                 "d" -> {
-                    deleteCount += 1
+                    assert(str.size == 2) {
+                        "Database is damaged"
+                    }
                     db.remove(str[1])
+                }
+                else -> assert(false) {
+                    "Database is damaged"
                 }
             }
         }
