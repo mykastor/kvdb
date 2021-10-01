@@ -17,6 +17,7 @@ data class DataBaseClass(var pathToDatabase : String) {
 
     private fun initDataBase() {
         if (!File(pathToDatabase).exists()) {
+            // logger.info {"Creating $pathToDatabase file"}
             File(pathToDatabase).appendText("init\n")
         }
     }

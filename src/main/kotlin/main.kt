@@ -3,7 +3,7 @@ import java.io.File
 import kotlin.system.exitProcess
 
 var logger = KotlinLogging.logger {}
-const val pathToPath = "paths/paths.txt"
+const val pathToPath = "paths/path.txt"
 const val defaultPathToDatabase = "database/db.txt"
 
 fun add(db : DataBaseClass, str : List<String>) {
