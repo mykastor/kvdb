@@ -1,9 +1,10 @@
 import mu.KotlinLogging
 import java.io.File
+import kotlin.math.log
 import kotlin.system.exitProcess
 
 var logger = KotlinLogging.logger {}
-const val pathToPath = "paths/path.txt"
+const val pathToPath = "paths.txt"
 const val defaultPathToDatabase = "database/db.txt"
 
 fun tryToRead() : String {
@@ -14,17 +15,15 @@ fun main(args: Array<String>) {
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
 
+    val db: DatabaseClass
     try {
-        if (File(pathToDatabase).exists() && !checkPassword(pathToDatabase) { tryToRead() }) {
-            return
-        }
+        db = getDatabase(pathToDatabase)
     } catch (e: Exception) {
-        logger.error(e) { e }
+        logger.error(e) {e}
         println(e)
         return
     }
 
-    val db = DatabaseClass(pathToDatabase)
     while (true) {
         val cmd: String
         try {
@@ -45,6 +44,8 @@ fun main(args: Array<String>) {
                 "help" -> help()
                 "changepath" -> changePath(db, str)
                 "path?" -> println(db.pathToDatabase)
+                "set" -> setPassword(db, str)
+                "all" -> db.printAll()
                 else -> println("Wrong command. Use \"help\" to see available commands")
             }
         } catch (e: Exception) {

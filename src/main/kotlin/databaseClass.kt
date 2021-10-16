@@ -3,6 +3,17 @@ import javax.xml.crypto.Data
 
 typealias Database = MutableMap<String, String>
 
+fun getDatabase(pathToDatabase: String) : DatabaseClass {
+    try {
+        if (File(pathToDatabase).exists() && !checkPassword(pathToDatabase) { tryToRead() }) {
+            throw WrongPasswords()
+        }
+    } catch (e: Exception) {
+        throw e
+    }
+    return DatabaseClass(pathToDatabase)
+}
+
 data class DatabaseClass(var pathToDatabase : String) {
 
     private var password: String? = null
@@ -42,6 +53,16 @@ data class DatabaseClass(var pathToDatabase : String) {
             throw e
         }
         db.clear()
+    }
+
+    // выводит первые 100 элементов
+    fun printAll() {
+        var cnt = 100
+        db.forEach {
+            if (cnt == 0) return
+            cnt -= 1
+            println("${it.key}: ${it.value}")
+        }
     }
 
     fun setPassword(str: String) {
