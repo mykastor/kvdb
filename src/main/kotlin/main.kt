@@ -6,7 +6,7 @@ var logger = KotlinLogging.logger {}
 const val pathToPath = "paths/path.txt"
 const val defaultPathToDatabase = "database/db.txt"
 
-fun add(db : DataBaseClass, str : List<String>) {
+fun add(db : DatabaseClass, str : List<String>) {
     if (str.size != 3) {
         println("Please, enter input format in this format: \"add key value\".\nNotice that key and value cannot have whitespaces")
         return
@@ -14,7 +14,7 @@ fun add(db : DataBaseClass, str : List<String>) {
     db.add(str[1], str[2])
 }
 
-fun remove(db : DataBaseClass, str : List<String>) {
+fun remove(db : DatabaseClass, str : List<String>) {
     if (str.size != 2) {
         println("Please, enter input format in this format: \"remove key\".\nNotice that key cannot have whitespaces")
         return
@@ -22,7 +22,7 @@ fun remove(db : DataBaseClass, str : List<String>) {
     db.remove(str[1])
 }
 
-fun find(db : DataBaseClass, str : List<String>) {
+fun find(db : DatabaseClass, str : List<String>) {
     if (str.size != 2) {
         println("Please, enter input format in this format: \"find key\".\nNotice that key cannot have whitespaces")
         return
@@ -43,7 +43,7 @@ fun help() {
     println("Notice that [key] and [value] are strings without whitespaces")
 }
 
-fun changePath(db : DataBaseClass, str : List<String>) {
+fun changePath(db : DatabaseClass, str : List<String>) {
     if (str.size != 2) {
         println("Please, enter input format in this format: \"rename path\".\nNotice that path cannot have whitespaces")
         return
@@ -70,10 +70,12 @@ fun getPath() : String {
     return "database/db.txt"
 }
 
+
+
 fun main(args: Array<String>) {
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
-    val db = DataBaseClass(pathToDatabase)
+    val db = DatabaseClass(pathToDatabase)
     while (true) {
         val cmd = readLine() ?: return
         val str = cmd.split(' ')

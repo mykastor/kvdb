@@ -4,11 +4,16 @@ import kotlin.test.*
 
 internal class TestValidity {
 
-    var db = DataBaseClass("database/testdb.txt")
+    var db = DatabaseClass("database/testdb.txt")
 
     @BeforeTest
     fun setUp() {
         db.cleanDataBase()
+    }
+
+    @AfterTest
+    fun cleanUp() {
+        File("database/testdb.txt").delete()
     }
 
     private fun generateRandomString() : String {

@@ -1,14 +1,13 @@
 import java.io.File
-import kotlin.jvm.internal.Intrinsics
 
-typealias DataBase = MutableMap<String, String>
+typealias Database = MutableMap<String, String>
 
-data class DataBaseClass(var pathToDatabase : String) {
+data class DatabaseClass(var pathToDatabase : String) {
 
-    private val db = loadDataBase()
+    private val db = loadDatabase()
 
     init {
-        rebuildDataBase()
+        rebuildDatabaseFile()
     }
 
     private fun addToFile(str: String) {
@@ -17,14 +16,14 @@ data class DataBaseClass(var pathToDatabase : String) {
 
     private fun initDataBase() {
         if (!File(pathToDatabase).exists()) {
-            // logger.info {"Creating $pathToDatabase file"}
+            logger.info {"Creating $pathToDatabase file"}
             File(pathToDatabase).appendText("init\n")
         }
     }
 
     private fun cleanDataBaseFile() {
-        assert(File(pathToDatabase).exists()) {
-            "removeDataBase used when there is no database"
+        if (!File(pathToDatabase).exists()) {
+            throw DatabaseFilesDoesNotExist(pathToDatabase)
         }
         File(pathToDatabase).writeText("init\n")
     }
@@ -45,7 +44,7 @@ data class DataBaseClass(var pathToDatabase : String) {
         }
         val oldPath = pathToDatabase
         pathToDatabase = newPathToDatabase
-        rebuildDataBase()
+        rebuildDatabaseFile()
         File(oldPath).delete()
     }
 
@@ -57,14 +56,10 @@ data class DataBaseClass(var pathToDatabase : String) {
     }
 
     fun find(key : String) : String? {
-        return if (db.containsKey(key)) {
-            db[key]
-        } else {
-            null
-        }
+        return db[key]
     }
 
-    private fun loadDataBase(): DataBase {
+    private fun loadDatabase(): Database {
         initDataBase()
         val lines = File(pathToDatabase).readLines()
         val db = mutableMapOf<String, String>()
@@ -74,14 +69,16 @@ data class DataBaseClass(var pathToDatabase : String) {
                 "a" -> {
                     if (str.size != 3) {
                         logger.error { "Database is damaged. $str" }
+                    } else {
+                        db[str[1]] = str[2]
                     }
-                    db[str[1]] = str[2]
                 }
                 "d" -> {
                     if (str.size != 2) {
                         logger.error { "Database is damaged. $str" }
+                    } else {
+                        db.remove(str[1])
                     }
-                    db.remove(str[1])
                 }
                 "init" -> {
 
@@ -94,11 +91,15 @@ data class DataBaseClass(var pathToDatabase : String) {
         return db
     }
 
-    fun rebuildDataBase() {
-        initDataBase()
-        cleanDataBaseFile()
-        db.forEach {
-            addToFile("a ${it.key} ${it.value}\n")
+    fun rebuildDatabaseFile() {
+        try {
+            initDataBase()
+            cleanDataBaseFile()
+            db.forEach {
+                addToFile("a ${it.key} ${it.value}\n")
+            }
+        } catch (e: Exception) {
+            throw e
         }
     }
 }

@@ -1,15 +1,22 @@
+import java.io.File
 import kotlin.random.Random
 import kotlin.test.assertNull
 import kotlin.test.*
 
 internal class TestPerformance {
 
-    var db = DataBaseClass("database/testdb.txt")
+    var db = DatabaseClass("database/testdb.txt")
 
     @BeforeTest
     fun setUp() {
         db.cleanDataBase()
     }
+
+    @AfterTest
+    fun cleanUp() {
+        File("database/testdb.txt").delete()
+    }
+
 
     private fun generateRandomString() : String {
         var str = ""
@@ -43,7 +50,7 @@ internal class TestPerformance {
 
         assertNull( db.find("asjdlfajsdnflajsdnfkjandfkljandjfnasd"))
 
-        db.rebuildDataBase()
+        db.rebuildDatabaseFile()
 
     }
 }
