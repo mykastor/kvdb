@@ -13,6 +13,17 @@ fun tryToRead() : String {
 fun main(args: Array<String>) {
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
+
+    try {
+        if (File(pathToDatabase).exists() && !checkPassword(pathToDatabase) { tryToRead() }) {
+            return
+        }
+    } catch (e: Exception) {
+        logger.error(e) { e }
+        println(e)
+        return
+    }
+
     val db = DatabaseClass(pathToDatabase)
     while (true) {
         val cmd: String

@@ -83,6 +83,7 @@ internal class TestValidity {
         db.setPassword("kek124")
         assertEquals(true, checkPassword(db.pathToDatabase) { "kek124" })
         assertEquals(false, checkPassword(db.pathToDatabase) { "kek123" } )
+        assertFailsWith<NoSuchFile> { checkPassword("asdjfs;dfsdf") { "" }  }
     }
 
 }
