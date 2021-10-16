@@ -26,6 +26,14 @@ fun find(db : DatabaseClass, str : List<String>) {
     else println(res)
 }
 
+fun setPassword(db : DatabaseClass, str: List<String>) {
+    if (str.size != 2) {
+        println("Please, enter input format in this format: \"find key\".\nNotice that password cannot have whitespaces")
+        return
+    }
+    db.setPassword(str[1])
+}
+
 fun help() {
     println("Hello! It's a key-value database. Command you can use:")
     println("[add key value] - adds an element to the database, if it already exists, replaces old value with new")
