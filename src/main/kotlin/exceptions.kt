@@ -4,8 +4,8 @@ class DatabaseFilesDoesNotExist(pathToDataBase: String) :
 class DatabaseIsDamaged(str: String) :
         Exception("Database is damaged! : $str")
 
-class WrongPassword(str: String) :
-        Exception("$str is a wrong password")
+class WrongPasswords() :
+        Exception("All passwords are wrong")
 
 class UnfinishedCheckingPassword() :
         Exception("Checking password is unfinished")
