@@ -4,6 +4,7 @@ typealias Database = MutableMap<String, String>
 
 data class DatabaseClass(var pathToDatabase : String) {
 
+    private var password: String? = null
     private val db = loadDatabase()
 
     init {
@@ -17,7 +18,7 @@ data class DatabaseClass(var pathToDatabase : String) {
     private fun initDataBase() {
         if (!File(pathToDatabase).exists()) {
             logger.info {"Creating $pathToDatabase file"}
-            File(pathToDatabase).appendText("init\n")
+            File(pathToDatabase).appendText(hashPassword(password).toString())
         }
     }
 
@@ -25,7 +26,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         if (!File(pathToDatabase).exists()) {
             throw DatabaseFilesDoesNotExist(pathToDatabase)
         }
-        File(pathToDatabase).writeText("init\n")
+        File(pathToDatabase).appendText(hashPassword(password).toString())
     }
 
     fun cleanDataBase() {
