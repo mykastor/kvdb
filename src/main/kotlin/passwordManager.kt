@@ -61,7 +61,11 @@ fun getPasswordHash(filename: String) : String {
     return lines[0]
 }
 
-fun checkPassword(filename: String, input: () -> String) : Boolean {
+data class checkPasswordResult(val password: String?,
+                                val guessed: Boolean)
+
+// возвращает true если угадали пароль, false если нет
+fun checkPassword(filename: String, input: () -> String): checkPasswordResult {
     logger.info {"start process of checking password"}
 
     val passwordHash: String
@@ -73,12 +77,12 @@ fun checkPassword(filename: String, input: () -> String) : Boolean {
 
     logger.info { "password hash is: $passwordHash" }
     if (passwordHash.toIntOrNull() == null || passwordHash.toInt() < -1) {
-        throw throw DatabaseIsDamaged("Password hash is deleted or broken")
+        throw DatabaseIsDamaged("Password hash is deleted or broken")
     }
 
     val hash = passwordHash.toInt()
     if (hash == -1) {
-        return true
+        return checkPasswordResult(null, true)
     }
 
     println("This database is secured by a password. Please, enter a password:")
@@ -90,14 +94,14 @@ fun checkPassword(filename: String, input: () -> String) : Boolean {
             throw e
         }
         if (pwd == "finish check") {
-            return false
+            return checkPasswordResult(null, false)
         }
         if (hashPassword(pwd) == hash) {
-            return true
+            return checkPasswordResult(pwd, true)
         } else {
             println("Wrong password. If you want to finish this process, write \"finish check\"")
         }
     }
     println("Too many attempts")
-    return false
+    return checkPasswordResult(null, false)
 }

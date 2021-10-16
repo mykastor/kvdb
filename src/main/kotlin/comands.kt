@@ -26,12 +26,12 @@ fun find(db : DatabaseClass, str : List<String>) {
     else println(res)
 }
 
-fun setPassword(db : DatabaseClass, str: List<String>) {
+fun setNewPassword(db : DatabaseClass, str: List<String>) {
     if (str.size != 2) {
         println("Please, enter input format in this format: \"find key\".\nNotice that password cannot have whitespaces")
         return
     }
-    db.setPassword(str[1])
+    db.setNewPassword(str[1])
 }
 
 fun help() {

@@ -15,10 +15,10 @@ fun main(args: Array<String>) {
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
 
-    val db: DatabaseClass
+    val db: DatabaseClass?
     try {
-        db = getDatabase(pathToDatabase)
-    } catch (e: Exception) {
+        db = DatabaseClass(pathToDatabase)
+    } catch (e: WrongPasswords) {
         logger.error(e) {e}
         println(e)
         return
@@ -44,7 +44,7 @@ fun main(args: Array<String>) {
                 "help" -> help()
                 "changepath" -> changePath(db, str)
                 "path?" -> println(db.pathToDatabase)
-                "set" -> setPassword(db, str)
+                "set" -> setNewPassword(db, str)
                 "all" -> db.printAll()
                 else -> println("Wrong command. Use \"help\" to see available commands")
             }

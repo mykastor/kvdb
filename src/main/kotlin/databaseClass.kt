@@ -1,18 +1,6 @@
 import java.io.File
-import javax.xml.crypto.Data
 
 typealias Database = MutableMap<String, String>
-
-fun getDatabase(pathToDatabase: String) : DatabaseClass {
-    try {
-        if (File(pathToDatabase).exists() && !checkPassword(pathToDatabase) { tryToRead() }) {
-            throw WrongPasswords()
-        }
-    } catch (e: Exception) {
-        throw e
-    }
-    return DatabaseClass(pathToDatabase)
-}
 
 data class DatabaseClass(var pathToDatabase : String) {
 
@@ -20,6 +8,17 @@ data class DatabaseClass(var pathToDatabase : String) {
     private val db: Database
 
     init {
+        if (File(pathToDatabase).exists()) {
+            val checkPasswordResult = checkPassword(pathToDatabase) { tryToRead() }
+            if (!checkPasswordResult.guessed) {
+                throw WrongPasswords()
+            }
+            password = checkPasswordResult.password
+            if (password != null) {
+                println("Loading database")
+            }
+        }
+
         try {
             db = loadDatabase()
         } catch (e: Exception) {
@@ -65,7 +64,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         }
     }
 
-    fun setPassword(str: String) {
+    fun setNewPassword(str: String) {
         password = str
         try {
             rebuildDatabaseFile()

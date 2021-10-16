@@ -76,14 +76,15 @@ internal class TestValidity {
 
     @Test
     fun testPassword() {
-        db.setPassword("kek123")
-        assertEquals(true, checkPassword(db.pathToDatabase) { "kek123" } )
-        assertEquals(false, checkPassword(db.pathToDatabase) { "kek124"} )
-        assertEquals(false, checkPassword(db.pathToDatabase) { "" } )
-        db.setPassword("kek124")
-        assertEquals(true, checkPassword(db.pathToDatabase) { "kek124" })
-        assertEquals(false, checkPassword(db.pathToDatabase) { "kek123" } )
-        assertFailsWith<NoSuchFile> { checkPassword("asdjfs;dfsdf") { "" }  }
+        db.setNewPassword("kek123")
+        assertEquals(true, checkPassword(db.pathToDatabase) { "kek123" }.guessed )
+        assertEquals(false, checkPassword(db.pathToDatabase) { "kek124"}.guessed )
+        assertEquals(false, checkPassword(db.pathToDatabase) { "" }.guessed )
+        db.setNewPassword("kek124")
+        assertEquals(true, checkPassword(db.pathToDatabase) { "kek124" }.guessed)
+        assertEquals("kek124", checkPassword(db.pathToDatabase) { "kek124" }.password)
+        assertEquals(false, checkPassword(db.pathToDatabase) { "kek123" }.guessed )
+        assertFailsWith<NoSuchFile> { checkPassword("asdjfs;dfsdf") { "" }.guessed  }
     }
 
 }
