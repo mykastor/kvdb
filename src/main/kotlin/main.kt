@@ -46,6 +46,7 @@ fun main(args: Array<String>) {
                 "path?" -> println(db.pathToDatabase)
                 "set" -> setNewPassword(db, str)
                 "all" -> db.printAll()
+                "rmpwd" -> db.setNewPassword(null)
                 else -> println("Wrong command. Use \"help\" to see available commands")
             }
         } catch (e: Exception) {

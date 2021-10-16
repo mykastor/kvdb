@@ -64,7 +64,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         }
     }
 
-    fun setNewPassword(str: String) {
+    fun setNewPassword(str: String?) {
         password = str
         try {
             rebuildDatabaseFile()
