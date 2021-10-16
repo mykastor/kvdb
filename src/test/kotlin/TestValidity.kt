@@ -74,4 +74,15 @@ internal class TestValidity {
 
     }
 
+    @Test
+    fun testPassword() {
+        db.setPassword("kek123")
+        assertEquals(true, checkPassword(db.pathToDatabase) { "kek123" } )
+        assertEquals(false, checkPassword(db.pathToDatabase) { "kek124"} )
+        assertEquals(false, checkPassword(db.pathToDatabase) { "" } )
+        db.setPassword("kek124")
+        assertEquals(true, checkPassword(db.pathToDatabase) { "kek124" })
+        assertEquals(false, checkPassword(db.pathToDatabase) { "kek123" } )
+    }
+
 }

@@ -6,12 +6,23 @@ var logger = KotlinLogging.logger {}
 const val pathToPath = "paths/path.txt"
 const val defaultPathToDatabase = "database/db.txt"
 
+fun tryToRead() : String {
+    return readLine() ?: throw NoInput()
+}
+
 fun main(args: Array<String>) {
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
     val db = DatabaseClass(pathToDatabase)
     while (true) {
-        val cmd = readLine() ?: return
+        val cmd: String
+        try {
+            cmd = tryToRead()
+        } catch (e: Exception) {
+            logger.error(e) {e}
+            println(e)
+            return
+        }
         val str = cmd.split(' ')
         try {
             when (str[0]) {

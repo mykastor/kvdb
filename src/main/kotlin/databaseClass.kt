@@ -1,13 +1,19 @@
 import java.io.File
+import javax.xml.crypto.Data
 
 typealias Database = MutableMap<String, String>
 
 data class DatabaseClass(var pathToDatabase : String) {
 
     private var password: String? = null
-    private val db = loadDatabase()
+    private val db: Database
 
     init {
+        try {
+            db = loadDatabase()
+        } catch (e: Exception) {
+            throw e
+        }
         rebuildDatabaseFile()
     }
 
@@ -18,7 +24,7 @@ data class DatabaseClass(var pathToDatabase : String) {
     private fun initDataBase() {
         if (!File(pathToDatabase).exists()) {
             logger.info {"Creating $pathToDatabase file"}
-            File(pathToDatabase).appendText(hashPassword(password).toString())
+            File(pathToDatabase).appendText(hashPassword(password).toString() + "\n")
         }
     }
 
@@ -26,12 +32,25 @@ data class DatabaseClass(var pathToDatabase : String) {
         if (!File(pathToDatabase).exists()) {
             throw DatabaseFilesDoesNotExist(pathToDatabase)
         }
-        File(pathToDatabase).appendText(hashPassword(password).toString())
+        File(pathToDatabase).writeText(hashPassword(password).toString() + "\n")
     }
 
     fun cleanDataBase() {
-        cleanDataBaseFile()
+        try {
+            cleanDataBaseFile()
+        } catch (e: Exception) {
+            throw e
+        }
         db.clear()
+    }
+
+    fun setPassword(str: String) {
+        password = str
+        try {
+            rebuildDatabaseFile()
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     fun add(key : String, value : String) {
@@ -43,10 +62,19 @@ data class DatabaseClass(var pathToDatabase : String) {
         if (newPathToDatabase == pathToDatabase) {
             return
         }
+
         val oldPath = pathToDatabase
         pathToDatabase = newPathToDatabase
-        rebuildDatabaseFile()
-        File(oldPath).delete()
+
+        try {
+            rebuildDatabaseFile()
+        } catch (e: Exception) {
+            throw e
+        }
+
+        if (File(oldPath).exists()) {
+            File(oldPath).delete()
+        }
     }
 
     fun remove(key : String) {
@@ -64,7 +92,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         initDataBase()
         val lines = File(pathToDatabase).readLines()
         val db = mutableMapOf<String, String>()
-        lines.forEach {
+        lines.subList(1, lines.size).forEach {
             val str = it.split(' ')
             when (str[0]) {
                 "a" -> {
@@ -80,9 +108,6 @@ data class DatabaseClass(var pathToDatabase : String) {
                     } else {
                         db.remove(str[1])
                     }
-                }
-                "init" -> {
-
                 }
                 else -> {
                     logger.error { "Database is damaged. $str" }

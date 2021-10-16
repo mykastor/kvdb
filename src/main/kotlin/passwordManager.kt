@@ -1,3 +1,5 @@
+import java.io.File
+
 // in this password manager hash function is super simple
 
 fun hashByKey(str: String, key: String?) : String {
@@ -44,5 +46,58 @@ fun hashPassword(str: String?) : Int {
     str.forEach {
         res = (res * hashPower + it.code) % mod
     }
+    logger.info { "hashed password is: $res"}
     return res.toInt()
+}
+
+fun getPasswordHash(filename: String) : String {
+    if (!File(filename).exists()) {
+        throw NoSuchFile(filename)
+    }
+    val lines = File(filename).readLines()
+    if (lines.isEmpty()) {
+        throw DatabaseIsDamaged("file is empty")
+    }
+    return lines[0]
+}
+
+fun checkPassword(filename: String, input: () -> String) : Boolean {
+    logger.info {"start process of checking password"}
+
+    val passwordHash: String
+    try {
+        passwordHash = getPasswordHash(filename)
+    } catch (e: Exception) {
+        throw e
+    }
+
+    logger.info { "password hash is: $passwordHash" }
+    if (passwordHash.toIntOrNull() == null || passwordHash.toInt() < -1) {
+        throw throw DatabaseIsDamaged("Password hash is deleted or broken")
+    }
+
+    val hash = passwordHash.toInt()
+    if (hash == -1) {
+        return true
+    }
+
+    println("This database is secured by a password. Please, enter a password:")
+    repeat(3) {
+        val pwd: String
+        try {
+            pwd = input()
+        } catch (e: Exception) {
+            throw e
+        }
+        if (pwd == "finish check") {
+            return false
+        }
+        if (hashPassword(pwd) == hash) {
+            return true
+        } else {
+            println("Wrong password. If you want to finish this process, write \"finish check\"")
+        }
+    }
+    println("Too many attempts")
+    return false
 }
