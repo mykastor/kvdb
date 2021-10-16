@@ -14,6 +14,8 @@ fun changePath(db : DatabaseClass, str : List<String>) {
     }
 }
 
+const val defaultPath = "db.txt"
+
 fun getPath() : String {
     if (File(pathToPath).exists()) {
         File(pathToPath).readLines().forEach {
@@ -23,6 +25,7 @@ fun getPath() : String {
     } else {
         logger.error { "Didn't find a file or which contains a path to database. Current path to that file: $pathToPath\". " +
                 "Default path to database is used." }
+        File(pathToPath).writeText(defaultPath)
     }
-    return "database/db.txt"
+    return defaultPath
 }
