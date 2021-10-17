@@ -84,25 +84,6 @@ data class DatabaseClass(var pathToDatabase : String) {
         db[key] = value
         addToFileNewLine("a $key $value")
     }
-    
-    fun changePath(newPathToDatabase : String) {
-        if (newPathToDatabase == pathToDatabase) {
-            return
-        }
-
-        val oldPath = pathToDatabase
-        pathToDatabase = newPathToDatabase
-
-        try {
-            rebuildDatabaseFile()
-        } catch (e: Exception) {
-            throw e
-        }
-
-        if (File(oldPath).exists()) {
-            File(oldPath).delete()
-        }
-    }
 
     fun remove(key : String) {
         if (db.containsKey(key)) {
@@ -119,7 +100,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         initDataBase()
         val lines = File(pathToDatabase).readLines()
         val db = mutableMapOf<String, String>()
-        lines.subList(1, lines.size).forEach {
+        lines.subList(1, lines.size).forEach { it ->
             val str = it.split(' ').map { unleashByKey(it, password)}
             when (str[0]) {
                 "a" -> {
