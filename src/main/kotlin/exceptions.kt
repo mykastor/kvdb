@@ -15,3 +15,6 @@ class NoSuchFile(filename: String) :
 
 class NoInput() :
         Exception("No user input")
+
+class NameIsTaken(filename: String) :
+        Exception("Name which is needed by a program is taken : filename is $filename")

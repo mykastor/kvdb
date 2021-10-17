@@ -34,6 +34,23 @@ fun setNewPassword(db : DatabaseClass, str: List<String>) {
     db.setNewPassword(str[1])
 }
 
+fun printAllDatabaseNames() {
+    val names = getAllDatabaseNames()
+    if (names.isEmpty()) {
+        println("Now there is no database available")
+    } else {
+        print("databases names:")
+        names.forEach { it ->
+            if (it == names.first()) {
+                print(" $it")
+            } else {
+                print(", $it")
+            }
+        }
+        println()
+    }
+}
+
 fun help() {
     // TODO обновить help и README.md
     println("Hello! It's a key-value database. Command you can use:")
@@ -45,5 +62,20 @@ fun help() {
     println("[set PASSWORD] - set password" )
     println("[all] - print first 100 elemenets in database")
     println("[rmpwd] - remove password")
-    println("Notice that [KEY],[PASSWORD] and [value] are strings without whitespaces")
+    println("[create DB_NAME] - create a new database with DB_NAME")
+    println("[choose DB_NAME]")
+    println("[out] - get out from current database")
+    println("Notice that [KEY],[PASSWORD], [DB_NAME] and [value] are strings without whitespaces")
+}
+
+fun createNewDatabase(filename: String) : DatabaseClass? {
+    if (getPath(filename) != null) {
+        println("Cannot create a new database because name $filename is used")
+        return null
+    }
+    try {
+        return DatabaseClass(getNewPath(filename))
+    } catch (e : Exception) {
+        throw e
+    }
 }

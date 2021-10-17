@@ -12,4 +12,7 @@ Key-value database, which supports basic(add, find, remove) database operations.
 ```set PASSWORD``` - set password  
 ```all``` - print first 100 elements in database  
 ```rmpwd``` - remove password  
+```create DB_NAME``` - create a new database with DB_NAME  
+```choose DB_NAME]```  
+```out``` - get out from current database  
 Notice that ```KEY```, ```VALUE``` and ```PASSWORD``` are strings without whitespaces.  
