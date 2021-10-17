@@ -35,8 +35,8 @@ fun unleashByKey(str: String, key: String?) : String {
     return builder.toString()
 }
 
-private val mod: Long = (1e9 + 7).toLong()
-private val hashPower: Long = 1337
+private const val mod: Long = (1e9 + 7).toLong()
+private const val hashPower: Long = 1337
 
 fun hashPassword(str: String?) : Int {
     if (str == null) {
