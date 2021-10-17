@@ -4,7 +4,7 @@ Key-value database, which supports basic(add, find, remove) database operations.
 
 # Usage
 
-```add KEY VAOUE``` - adds an element to the database, if it already exists, replaces it with a new value.  
+```add KEY VALUE``` - adds an element to the database, if it already exists, replaces it with a new value.  
 ```find KEY``` - find an element by key.  
 ```remove KEY``` - remove an element by key, if there is no such element nothing will happen.  
 ```clean!!``` - clean the database.   
