@@ -28,7 +28,14 @@ data class DatabaseClass(var pathToDatabase : String) {
     }
 
     private fun addToFile(str: String) {
-        File(pathToDatabase).appendText(str)
+        val strs = str.split(' ')
+        for (i in strs.indices) {
+            File(pathToDatabase).appendText(hashByKey(strs[i], password))
+            if (i != strs.lastIndex) {
+                File(pathToDatabase).appendText(" ")
+            }
+        }
+        File(pathToDatabase).appendText("\n")
     }
 
     private fun initDataBase() {
@@ -75,7 +82,7 @@ data class DatabaseClass(var pathToDatabase : String) {
 
     fun add(key : String, value : String) {
         db[key] = value
-        addToFile("a $key $value\n")
+        addToFile("a $key $value")
     }
     
     fun changePath(newPathToDatabase : String) {
@@ -100,7 +107,7 @@ data class DatabaseClass(var pathToDatabase : String) {
     fun remove(key : String) {
         if (db.containsKey(key)) {
             db.remove(key)
-            addToFile("d $key\n")
+            addToFile("d $key")
         }
     }
 
@@ -113,7 +120,7 @@ data class DatabaseClass(var pathToDatabase : String) {
         val lines = File(pathToDatabase).readLines()
         val db = mutableMapOf<String, String>()
         lines.subList(1, lines.size).forEach {
-            val str = it.split(' ')
+            val str = it.split(' ').map { unleashByKey(it, password)}
             when (str[0]) {
                 "a" -> {
                     if (str.size != 3) {
@@ -142,7 +149,7 @@ data class DatabaseClass(var pathToDatabase : String) {
             initDataBase()
             cleanDataBaseFile()
             db.forEach {
-                addToFile("a ${it.key} ${it.value}\n")
+                addToFile("a ${it.key} ${it.value}")
             }
         } catch (e: Exception) {
             throw e
