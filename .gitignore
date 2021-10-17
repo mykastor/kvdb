@@ -72,3 +72,8 @@ distTmp/
 outTmp/
 /test.output
 /kotlin-native/dist
+/.idea/
+/.github/
+gradlew
+gradlew.bat
+.github/

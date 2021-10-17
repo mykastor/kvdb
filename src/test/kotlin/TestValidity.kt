@@ -4,7 +4,7 @@ import kotlin.test.*
 
 internal class TestValidity {
 
-    var db = DatabaseClass("database/testdb.txt")
+    var db = DatabaseClass("testdbaasdfasdf.txt")
 
     @BeforeTest
     fun setUp() {
@@ -13,7 +13,7 @@ internal class TestValidity {
 
     @AfterTest
     fun cleanUp() {
-        File("database/testdb.txt").delete()
+        File(db.pathToDatabase).delete()
     }
 
     private fun generateRandomString() : String {
@@ -73,6 +73,8 @@ internal class TestValidity {
         assertEquals("c", db.find("b"))
 
     }
+
+
 
     @Test
     fun testPassword() {

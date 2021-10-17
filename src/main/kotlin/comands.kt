@@ -35,6 +35,7 @@ fun setNewPassword(db : DatabaseClass, str: List<String>) {
 }
 
 fun help() {
+    // TODO обновить help и README.md
     println("Hello! It's a key-value database. Command you can use:")
     println("[add key value] - adds an element to the database, if it already exists, replaces old value with new")
     println("[find key] - find an element by key")
