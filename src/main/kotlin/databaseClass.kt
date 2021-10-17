@@ -27,8 +27,8 @@ data class DatabaseClass(var pathToDatabase : String) {
         rebuildDatabaseFile()
     }
 
-    private fun addToFile(str: String) {
-        val strs = str.split(' ')
+    private fun addToFileNewLine(line: String) {
+        val strs = line.split(' ')
         for (i in strs.indices) {
             File(pathToDatabase).appendText(hashByKey(strs[i], password))
             if (i != strs.lastIndex) {
@@ -82,7 +82,7 @@ data class DatabaseClass(var pathToDatabase : String) {
 
     fun add(key : String, value : String) {
         db[key] = value
-        addToFile("a $key $value")
+        addToFileNewLine("a $key $value")
     }
     
     fun changePath(newPathToDatabase : String) {
@@ -107,7 +107,7 @@ data class DatabaseClass(var pathToDatabase : String) {
     fun remove(key : String) {
         if (db.containsKey(key)) {
             db.remove(key)
-            addToFile("d $key")
+            addToFileNewLine("d $key")
         }
     }
 
@@ -149,7 +149,7 @@ data class DatabaseClass(var pathToDatabase : String) {
             initDataBase()
             cleanDataBaseFile()
             db.forEach {
-                addToFile("a ${it.key} ${it.value}")
+                addToFileNewLine("a ${it.key} ${it.value}")
             }
         } catch (e: Exception) {
             throw e
