@@ -41,10 +41,9 @@ fun help() {
     println("[find KEY] - find an element by key")
     println("[remove KEY] - remove an element by key, if there is no such element nothing will happen")
     println("[clean!!] - clean the database")
-    println("[changepath PATH] - change the path to database")
     println("[path?] - print the current path to database")
     println("[set PASSWORD] - set password" )
     println("[all] - print first 100 elemenets in database")
     println("[rmpwd] - remove password")
-    println("Notice that [KEY], [PATH], [PASSWORD] and [value] are strings without whitespaces")
+    println("Notice that [KEY],[PASSWORD] and [value] are strings without whitespaces")
 }

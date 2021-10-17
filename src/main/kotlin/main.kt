@@ -41,7 +41,6 @@ fun main(args: Array<String>) {
                 "exit" -> exitProcess(0)
                 "clean!!" -> db.cleanDataBase()
                 "help" -> help()
-                "changepath" -> changePath(db, str)
                 "path?" -> println(db.pathToDatabase)
                 "set" -> setNewPassword(db, str)
                 "all" -> db.printAll()
