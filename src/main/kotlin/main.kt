@@ -29,7 +29,7 @@ fun chooseDataBase() {
         try {
             when (strs[0]) {
                 "create" -> db = createNewDatabase(strs[1])
-                "choose" -> db = getPath(strs[1])?.let { DatabaseClass(it) }
+                "choose" -> db = getDatabase(strs[1])
                 else -> println("Wrong input format")
             }
         } catch (e: Exception) {

@@ -79,3 +79,16 @@ fun createNewDatabase(filename: String) : DatabaseClass? {
         throw e
     }
 }
+
+fun getDatabase(filename: String) : DatabaseClass? {
+    val path = getPath(filename)
+    if (path == null) {
+        println("There is no such database")
+        return null
+    }
+    try {
+        return DatabaseClass(path)
+    } catch (e: Exception) {
+        throw e
+    }
+}
