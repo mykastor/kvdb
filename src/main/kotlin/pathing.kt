@@ -1,5 +1,9 @@
 import java.io.File
 
+
+const val pathToPath = "paths.txt"
+const val defaultPathToDatabase = "database/db.txt"
+
 fun changePath(db : DatabaseClass, str : List<String>) {
     if (str.size != 2) {
         println("Please, enter input format in this format: \"rename path\".\nNotice that path cannot have whitespaces")

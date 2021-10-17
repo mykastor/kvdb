@@ -4,14 +4,13 @@ import kotlin.math.log
 import kotlin.system.exitProcess
 
 var logger = KotlinLogging.logger {}
-const val pathToPath = "paths.txt"
-const val defaultPathToDatabase = "database/db.txt"
 
 fun tryToRead() : String {
     return readLine() ?: throw NoInput()
 }
 
 fun main(args: Array<String>) {
+
     val pathToDatabase = getPath()
     logger.info {"Path to database: $pathToDatabase"}
 
