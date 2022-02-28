@@ -1,8 +1,7 @@
 import java.io.File
 
-
-const val pathToPath = "paths.txt"
-const val defaultPath = "db.txt"
+private const val pathToPath = "paths.txt"
+private const val defaultPath = "db.txt"
 
 fun addNewPath(databaseName: String, pathToDatabase: String) {
     if (!File(pathToPath).exists()) {
@@ -41,10 +40,11 @@ fun getPath(databaseName: String) : String? {
                 return strs[1]
             }
         } else {
-            logger.error { "File which contains paths is damaged : $it"}
+            logger.error { "File which contains paths is damaged : $it."}
         }
     }
-    logger.error { "File which contains paths to databases doesn't have a path to $databaseName." }
+
+    logger.debug { "File which contains paths to databases doesn't have a path to $databaseName." }
 
     return null
 }

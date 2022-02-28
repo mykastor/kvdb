@@ -11,10 +11,10 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    testImplementation(kotlin("test"))
-    implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
-    runtimeOnly("org.slf4j:slf4j-simple:1.7.29")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
 }
 
 tasks.getByName<Test>("test") {

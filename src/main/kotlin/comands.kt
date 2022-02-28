@@ -52,20 +52,20 @@ fun printAllDatabaseNames() {
 }
 
 fun help() {
-    // TODO обновить help и README.md
     println("Hello! It's a key-value database. Command you can use:")
-    println("[add KEY VALUE] - adds an element to the database, if it already exists, replaces old value with new")
-    println("[find KEY] - find an element by key")
-    println("[remove KEY] - remove an element by key, if there is no such element nothing will happen")
-    println("[clean!!] - clean the database")
-    println("[path?] - print the current path to database")
-    println("[set PASSWORD] - set password" )
-    println("[all] - print first 100 elemenets in database")
-    println("[rmpwd] - remove password")
-    println("[create DB_NAME] - create a new database with DB_NAME")
-    println("[choose DB_NAME]")
-    println("[out] - get out from current database")
-    println("Notice that [KEY],[PASSWORD], [DB_NAME] and [value] are strings without whitespaces")
+
+    println("add KEY VALUE - adds an element to the database, if it already exists, replaces it with a new value.  \" +\n" +
+            "find KEY - find an element by key.\n" +
+            "remove KEY - remove an element by key, if there is no such element nothing will happen.\n" +
+            "clean!! - clean the database.\n" +
+            "path? - print the current path to database\n" +
+            "set PASSWOR - set password\n" +
+            "all - print first 100 elements in database\n" +
+            "rmpwd - remove password\n" +
+            "create DB_NAME - create a new database with DB_NAME\n" +
+            "choose DB_NAME\n" +
+            "out - get out from current database\n" +
+            "Notice that KEY, VALUE and PASSWORD are strings without whitespaces")
 }
 
 fun createNewDatabase(filename: String) : DatabaseClass? {

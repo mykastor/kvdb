@@ -1,6 +1,6 @@
 # Overview
 
-Key-value database, which supports basic(add, find, remove) database operations.
+Key-value database, which supports basic database operations.
 
 # Usage
 

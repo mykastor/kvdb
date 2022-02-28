@@ -40,7 +40,7 @@ data class DatabaseClass(var pathToDatabase : String) {
 
     private fun initDataBase() {
         if (!File(pathToDatabase).exists()) {
-            logger.info {"Creating $pathToDatabase file"}
+            logger.debug {"Creating $pathToDatabase file"}
             File(pathToDatabase).appendText(hashPassword(password).toString() + "\n")
         }
     }
@@ -102,23 +102,19 @@ data class DatabaseClass(var pathToDatabase : String) {
         val db = mutableMapOf<String, String>()
         lines.subList(1, lines.size).forEach { it ->
             val str = it.split(' ').map { unleashByKey(it, password)}
-            when (str[0]) {
-                "a" -> {
-                    if (str.size != 3) {
-                        logger.error { "Database is damaged. $str" }
-                    } else {
+            if (str.size != 3) {
+                logger.error { "Database is damaged. $str" }
+            } else {
+                when (str[0]) {
+                    "a" -> {
                         db[str[1]] = str[2]
                     }
-                }
-                "d" -> {
-                    if (str.size != 2) {
-                        logger.error { "Database is damaged. $str" }
-                    } else {
+                    "d" -> {
                         db.remove(str[1])
                     }
-                }
-                else -> {
-                    logger.error { "Database is damaged. $str" }
+                    else -> {
+                        logger.error { "Database is damaged. $str" }
+                    }
                 }
             }
         }

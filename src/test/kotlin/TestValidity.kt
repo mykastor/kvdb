@@ -74,8 +74,6 @@ internal class TestValidity {
 
     }
 
-
-
     @Test
     fun testPassword() {
         db.setNewPassword("kek123")
