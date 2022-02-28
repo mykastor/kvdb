@@ -16,4 +16,4 @@ Key-value database, which supports basic database operations.
 ```choose DB_NAME```  
 ```out``` - get out from current database  
 Notice that ```KEY```, ```VALUE``` and ```PASSWORD``` are strings without whitespaces. <br>
-![example.jpg](images\example.jpg)
+![example.jpg](images/example.jpg)
